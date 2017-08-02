@@ -1,4 +1,14 @@
-from flask import Flask
+
+from flask import Flask, render_template
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
-from app import views
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
+
+if __name__ == '__main__':
+    socketio.run(app)
+
+@socketio.on('echo')
+def handle_echo(message):
+    print('echoing back: ' + message)
